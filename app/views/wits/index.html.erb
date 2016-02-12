@@ -1,0 +1,9 @@
+<h1>Listing wits</h1>
+
+<% @wits.each do |wit| %>
+  <%= wit.content %> [<%= wit.favorites %>] - <%= wit.created_at %><br />
+<% end %>
+
+
+
+
