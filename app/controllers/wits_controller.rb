@@ -1,8 +1,9 @@
 class WitsController < ApplicationController
-  before_filter(:load_wit, only: [:edit, :update, :show, :destroy])
+  before_action(:authenticate_user!)
+  before_action(:load_wit, only: [:edit, :update, :show, :destroy])
 
   def index
-    @wits = Wit.all
+    @wits = current_user.wits
   end
 
   def new
