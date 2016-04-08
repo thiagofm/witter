@@ -11,8 +11,7 @@ class WitsController < ApplicationController
   end
 
   def create
-    @wit = Wit.new(content: params[:wit][:content])
-    @wit.create
+    @wit = Wit.create(content: params[:wit][:content], user: current_user)
 
     redirect_to(wits_path)
   end
@@ -21,18 +20,24 @@ class WitsController < ApplicationController
   end
 
   def update
-    @wit.update(content: params[:wit][:content])
-
-    redirect_to(wits_path)
+    if @wit.user == current_user
+      @wit.update(content: params[:wit][:content])
+      redirect_to(wits_path)
+    else
+      raise "Hey, someone is trying to update a wit of another user!"
+    end
   end
 
   def show
   end
 
   def destroy
-    @wit.delete
-
-    redirect_to(wits_path)
+    if @wit.user == current_user
+      @wit.destroy
+      redirect_to(wits_path)
+    else
+      raise "Hey, someone is trying to delete a wit of another user!"
+    end
   end
 
   private
